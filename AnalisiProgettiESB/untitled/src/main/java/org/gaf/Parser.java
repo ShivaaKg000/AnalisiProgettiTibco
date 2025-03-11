@@ -113,7 +113,8 @@ public class Parser {
                     Integer httpReceiver = countValueNodes(doc, "com.tibco.plugin.http.HTTPEventSource");
                     Integer httpRequest = countValueNodes(doc, "com.tibco.plugin.http.client.HttpRequestActivity");
                     Integer invoke = countValueNodes(doc, "com.tibco.plugin.json.activities.RestActivity");
-
+                    Integer jmsReceiver = countValueNodes(doc, "com.tibco.plugin.jms.JMSQueueEventSource");
+                    Integer jmsSender = countValueNodes(doc, "com.tibco.plugin.jms.JMSQueueSendActivity");
 
                     Integer transitions = countNodes(doc,"pd:transition");
                     global.append(processName).append(",")
@@ -130,7 +131,8 @@ public class Parser {
                             .append(sp).append(",")
                             .append(httpReceiver).append(",")
                             .append(httpRequest).append(",")
-                            .append(invoke);
+                            .append(invoke).append(",")
+                            .append(jmsReceiver+jmsSender);
                     System.out.println(global);
                 }
             }
