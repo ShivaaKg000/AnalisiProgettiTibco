@@ -17,7 +17,7 @@ public class Main {
         //global.append(getCsv(mainPath, ".process", "BATCH", "pd:starter.pd:type","","com.tibco.plugin.timer.TimerEventSource", "any")).append("\n");
        //global.append(getCsv(mainPath, ".process", "SUBPROCESS", "config.processNameXPath","any","any", "any")).append("\n");
 
-        System.out.println("PROCESS PATH,CLUSTER,CHARS,LINES,ACTIVITIES,TRANSITIONS,SUBPROCESS,DISCT_SUBPROCESS,MAPPERS,SOAP,JDBC,SP,HTTP_REC,HTTP_REQ,INV_REST,JMS");
+        System.out.println("PROCESS PATH,CLUSTER,CHARS,LINES,ACTIVITIES,TRANSITIONS,SUBPROCESS,DISCT_SUBPROCESS,MAPPERS,SOAP,JDBC,SP,HTTP_REC,HTTP_REQ,INV_REST,JMS,NULL_ASSIGN");
         Parser.getProcessMetrics(mainPath);
     }
 }
