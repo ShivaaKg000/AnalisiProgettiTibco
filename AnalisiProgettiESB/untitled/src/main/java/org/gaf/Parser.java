@@ -5,6 +5,8 @@ import org.w3c.dom.Document;
 import java.io.*;
 import java.util.*;
 
+import static org.gaf.ProcessComplexityCalculator.calculateComplexity;
+import static org.gaf.ProcessComplexityCalculatorVA.calculateComplexity2;
 import static org.gaf.TextUtils.*;
 import static org.gaf.XMLUtils.*;
 
@@ -83,7 +85,7 @@ public class Parser {
         return result;
     }
 
-    public static void getProcessMetrics(File directory) {
+    public static void getProcessMetrics(File directory) throws Exception {
 
         FilenameFilter filter = (dir, name) -> name.endsWith(".process");
         File[] files = directory.listFiles(filter);
@@ -93,7 +95,7 @@ public class Parser {
                 Document doc = parseXML(file);
                 if (doc != null) {
                     StringBuilder global = new StringBuilder();
-                    String cluster = file.getAbsolutePath().split("\\\\")[4];
+                    String cluster = file.getAbsolutePath().split("\\\\")[3]+ "\\" +file.getAbsolutePath().split("\\\\")[4];
                     String processName = getTagValue(doc, "pd:name");
                     Integer lines = countLines(file);
                     Integer chars = countCharsExcludingSpaces(file.getAbsolutePath());
@@ -129,13 +131,14 @@ public class Parser {
                             .append(DistinctCalledProcesses).append(",")
                             .append(mappers).append(",")
                             .append(soap).append(",")
-                            .append(sqlDirect+sqlUpdate+jdbcQuery).append(",")
+                            .append(sqlDirect + sqlUpdate + jdbcQuery).append(",")
                             .append(sp).append(",")
                             .append(httpReceiver).append(",")
                             .append(httpRequest).append(",")
                             .append(invoke).append(",")
-                            .append(jmsReceiver+jmsSender).append(",")
-                            .append(nullActivity+assignActivity);
+                            .append(jmsReceiver + jmsSender).append(",")
+                            .append(nullActivity + assignActivity).append(",")
+                            .append(calculateComplexity(file));
                     System.out.println(global);
                 }
             }
