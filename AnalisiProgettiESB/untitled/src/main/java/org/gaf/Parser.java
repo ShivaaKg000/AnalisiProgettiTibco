@@ -104,6 +104,8 @@ public class Parser {
                     int end = countNodes(doc,"pd:endName");
                     Integer activities = countNodes(doc,"pd:activity") + starter + end;
 
+
+
                     Integer calledProcesses = countValueNodes(doc,"com.tibco.pe.core.CallProcessActivity");
                     Integer DistinctCalledProcesses = distinctCalledProcesses("com.tibco.pe.core.CallProcessActivity", doc);
                     Integer mappers = countValueNodes(doc,"com.tibco.plugin.mapper.MapperActivity");
@@ -137,8 +139,9 @@ public class Parser {
                             .append(httpRequest).append(",")
                             .append(invoke).append(",")
                             .append(jmsReceiver + jmsSender).append(",")
-                            .append(nullActivity + assignActivity).append(",")
-                            .append(calculateComplexity(file));
+                            .append(nullActivity).append(",")
+                            .append(assignActivity).append(",")
+                            .append(calculateComplexity2(file));
                     System.out.println(global);
                 }
             }

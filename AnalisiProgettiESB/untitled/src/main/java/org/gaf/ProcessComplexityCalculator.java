@@ -18,20 +18,35 @@ public class ProcessComplexityCalculator {
         // Conta le attività con pesi dinamici
         complexity += countWeightedActivities(doc);
 
+        System.out.println(complexity);
+
         // Conta gli elementi logici (condizioni, cicli)
         complexity += countNodes(doc, "pd:condition") * 0.1;
+
+        System.out.println(complexity);
+
         complexity += countNodes(doc, "pd:loop") * 0.1;
+
+        System.out.println(complexity);
 
         // Conta gli elementi logici specifici (if, then, when, otherwise)
         complexity += (int) (countLogicalElements(doc) * 0.01); // Assegna un peso inferiore agli elementi logici
 
+        System.out.println(complexity);
+
         // Conta la dimensione delle strutture (variabili)
         complexity += calculateStructureSize(doc) / 1000; // Riduce l'impatto della dimensione delle strutture
+
+        System.out.println(complexity);
 
         // Considera la complessità dei dati (strutturati vs. non strutturati)
         complexity += calculateDataComplexity(doc);
 
-        return complexity;
+        System.out.println(complexity);
+
+        double result = ((double) complexity / 100) * 2;
+
+        return (int) Math.ceil(result);
     }
 
     public static Document loadXMLDocument(File file) throws Exception {
