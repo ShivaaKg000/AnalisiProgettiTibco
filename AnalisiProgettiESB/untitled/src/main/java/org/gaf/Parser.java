@@ -97,6 +97,12 @@ public class Parser {
                     StringBuilder global = new StringBuilder();
                     String cluster = file.getAbsolutePath().split("\\\\")[3]+ "\\" +file.getAbsolutePath().split("\\\\")[4];
                     String processName = getTagValue(doc, "pd:name");
+                    // Sostituisci gli slash da / a \
+                    processName = processName.replace('/', '\\');
+                    // Elimina il primo carattere
+                    if (processName.length() > 0) {
+                        processName = processName.substring(1);
+                    }
                     Integer lines = countLines(file);
                     Integer chars = countCharsExcludingSpaces(file.getAbsolutePath());
 

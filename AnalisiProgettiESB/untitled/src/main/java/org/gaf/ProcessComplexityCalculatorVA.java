@@ -34,9 +34,12 @@ public class ProcessComplexityCalculatorVA {
         complexity += calculateDataComplexity(doc); // Calcola la complessità dei dati
         //System.out.println("Calcola la complessità dei dati: "+complexity);
 
-        double result = ((double)normalizeComplexity(complexity) / 85) + 3;
 
-        return ((int) result); // Normalizza la complessità
+        return calcolaOrePersonalizzato(complexity);
+                //calcolaOrePersonalizzato(complexity);
+        //double hour = ((double)normalizeComplexity(complexity) / 85) + 3;
+        //double hour = 90 * (1 - Math.exp(-complexity / 6000.0));
+       // return ((int) hour); // Normalizza la complessità
     }
 
     // Metodo per caricare il documento XML
@@ -45,6 +48,66 @@ public class ProcessComplexityCalculatorVA {
         DocumentBuilder builder = factory.newDocumentBuilder();
         return builder.parse(file);
     }
+    public static int calcolaOrePersonalizzato(double complexity) {
+        // Definizione delle variabili con nomi significativi
+        double tassoCrescitaIniziale = 4.0;
+        double sogliaComplessitaIniziale = 300.0;
+        double tassoDecadimentoIniziale = 100.0;
+
+        double tassoCrescitaIntermedio = 16.0;
+        double sogliaComplessitaIntermedia = 1000.0;
+        double tassoDecadimentoIntermedio = 300.0;
+
+        double tassoCrescitaAlta = 50.0;
+        double sogliaComplessitaAlta = 7000.0;
+        double tassoDecadimentoAlta = 2000.0;
+
+        double tassoCrescitaFinale = 30.0;
+        double tassoDecadimentoFinale = 5000.0;
+
+        double hours;
+        if (complexity < sogliaComplessitaIniziale) {
+            hours = tassoCrescitaIniziale * (1 - Math.exp(-complexity / tassoDecadimentoIniziale));
+        } else if (complexity < sogliaComplessitaIntermedia) {
+            hours = tassoCrescitaIniziale + (tassoCrescitaIntermedio * (1 - Math.exp(-(complexity - sogliaComplessitaIniziale) / tassoDecadimentoIntermedio)));
+        } else if (complexity < sogliaComplessitaAlta) {
+            hours = 20 + (tassoCrescitaAlta * (1 - Math.exp(-(complexity - sogliaComplessitaIntermedia) / tassoDecadimentoAlta)));
+        } else {
+            hours = 70 + (tassoCrescitaFinale * (1 - Math.exp(-(complexity - sogliaComplessitaAlta) / tassoDecadimentoFinale)));
+        }
+        return (int) Math.ceil(hours); // Arrotonda per eccesso
+    }
+//     public static int calcolaOrePersonalizzato(double complessità) {
+//            // Definizione delle variabili con nomi significativi
+//            double tassoCrescitaIniziale = 3.0;
+//            double sogliaComplessitàIniziale = 100.0;
+//            double tassoDecadimentoIniziale = 50.0;
+//
+//            double tassoCrescitaIntermedio = 5.0;
+//            double sogliaComplessitàIntermedia = 1000.0;
+//            double tassoDecadimentoIntermedio = 300.0;
+//
+//            double tassoCrescitaAlta = 60.0;
+//            double sogliaComplessitàAlta = 10000.0;
+//            double tassoDecadimentoAlta = 3000.0;
+//
+//            double tassoCrescitaFinale = 40.0;
+//            double tassoDecadimentoFinale = 5000.0;
+//
+//            double ore;
+//            if (complessità < sogliaComplessitàIniziale) {
+//                ore = tassoCrescitaIniziale * (1 - Math.exp(-complessità / tassoDecadimentoIniziale));
+//            } else if (complessità < sogliaComplessitàIntermedia) {
+//                ore = tassoCrescitaIniziale + (tassoCrescitaIntermedio * (1 - Math.exp(-(complessità - sogliaComplessitàIniziale) / tassoDecadimentoIntermedio)));
+//            } else if (complessità < sogliaComplessitàAlta) {
+//                ore = 8 + (tassoCrescitaAlta * (1 - Math.exp(-(complessità - sogliaComplessitàIntermedia) / tassoDecadimentoAlta)));
+//            } else {
+//                ore = 60 + (tassoCrescitaFinale * (1 - Math.exp(-(complessità - sogliaComplessitàAlta) / tassoDecadimentoFinale)));
+//            }
+//            return (int) Math.ceil(ore); // Arrotonda per eccesso
+//        }
+
+
 
     // Metodo per contare le attività con pesi dinamici
     public static int countWeightedActivities(Document doc) {
